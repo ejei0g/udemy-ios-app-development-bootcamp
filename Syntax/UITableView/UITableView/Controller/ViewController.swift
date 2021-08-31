@@ -23,10 +23,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //(필수) 테이블 뷰에 사용될 모든 셀들을 리턴
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let text: String = indexPath.section == 0 ? self.korean[indexPath.row] : self.english[indexPath.row]
-        cell.textLabel?.text = text
-        
+        let cell: CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CustomTableViewCell
+   //     let text: String = indexPath.section == 0 ? self.korean[indexPath.row] : self.english[indexPath.row]
+     
+        cell.leftLabel?.text = "left"
+        cell.rightLl.text = "right"
+       // cell.customTextField?.text = "texttext\(text)"
+       
         return cell
     }
     // 사용할 섹션의 수 (옵셔널함수) : 영어, 한글섹션
@@ -47,8 +50,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet var tableView: UITableView!
     
-    let cellIdentifier: String = "cell"
     
+    
+    let cellIdentifier: String = "customCell"
     let korean: [String] = ["하나", "둘", "삼", "넷", "오"]
     let english: [String] = ["one", "two", "three", "four", "five"]
     

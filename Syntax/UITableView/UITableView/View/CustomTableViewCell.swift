@@ -9,7 +9,8 @@ import UIKit
 
 class CustomTableViewCell: UITableViewCell {
 
-    @IBOutlet var test: UILabel!
+    @IBOutlet  var leftLabel: UILabel!
+    @IBOutlet  var rightLl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
