@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  UITableView
+//  sampleTable
 //
-//  Created by Jaeyoung Lee on 2021/08/27.
+//  Created by Jaeyoung Lee on 2021/08/31.
 //
 
 import UIKit
@@ -18,6 +18,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         print("reload dates \(datas)")
     }
+    // cell 의 instance의 클래스를 만든다
+    // 새파일
+    
     
     var datas: [Date] = []
     let dateFormatter: DateFormatter = {
@@ -30,7 +33,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         formatter.timeStyle = .medium
         return formatter
     }()
-    // (필수) 한 섹션에 몇개의 로우(셀)를 담을것인가
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -43,8 +45,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 0
         }
     }
-    
-    //(필수) 테이블 뷰에 사용될 모든 셀들을 리턴
+    var checkCount: Int = 0
+    // 사용할 셀 정의
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //view reuse
      
@@ -58,12 +60,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.textLabel?.text = text
             return cell
         } else {
-            print("in")
-           // let cell: CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.customCellIdentifier, for: indexPath) as! CustomTableViewCell
+            let cell: CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.customCellIdentifier, for: indexPath) as! CustomTableViewCell
             
-            let cell: CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! CustomTableViewCell
-            
-            print("out")
             cell.leftLabel?.text = self.dateFormatter.string(from: self.datas[indexPath.row])
             cell.rightLabel?.text = self.timeFormatter.string(from: self.datas[indexPath.row])
             
@@ -75,15 +73,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //checkCount += 1
         
     }
-    // 사용할 섹션의 수 (옵셔널함수) : 영어, 한글섹션
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
+        
     }
-    //
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Title \(section)"
     }
- 
+  
+    
     let cellIdentifier: String = "cell"
     
     let customCellIdentifier: String = "customCell"
@@ -94,10 +92,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        //self.tableView.backgroundColor = UIColor.gray
     }
-    // 테이블 뷰
-    //section 과 row 로 이루어짐
 
 
 }

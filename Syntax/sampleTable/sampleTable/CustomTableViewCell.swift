@@ -1,16 +1,18 @@
 //
 //  CustomTableViewCell.swift
-//  UITableView
+//  sampleTable
 //
-//  Created by Jaeyoung Lee on 2021/08/27.
+//  Created by Jaeyoung Lee on 2021/08/31.
 //
 
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-
-    @IBOutlet  var leftLabel: UILabel!
-    @IBOutlet  var rightLl: UILabel!
+    
+    @IBOutlet var leftLabel: UILabel!
+    @IBOutlet var rightLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,7 +23,5 @@ class CustomTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    
 
 }
