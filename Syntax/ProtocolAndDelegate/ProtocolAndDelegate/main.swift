@@ -34,4 +34,4 @@ let doctor = Doctor(handler: a)
 
 a.chk()
 a.medicalEmergency() //trigger 수행
-a.delegate?.perfomeCPR()
+
