@@ -13,7 +13,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate,UINaviga
     @IBAction func touchUpSelectImageButton(_ sender: UIButton) {
         self.present(self.imagePicker, animated: true, completion: nil)
     }
-    
+    var a :Int = 3
     lazy var imagePicker: UIImagePickerController = {
         let picker: UIImagePickerController = UIImagePickerController()
         picker.sourceType = .photoLibrary
@@ -32,10 +32,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate,UINaviga
         if let originalImage : UIImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.imageView.image = originalImage
         }
+        print("pick picture")
         self.dismiss(animated: true , completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("cancel")
         self.dismiss(animated: true , completion: nil)
     }
     override func viewDidLoad() {
