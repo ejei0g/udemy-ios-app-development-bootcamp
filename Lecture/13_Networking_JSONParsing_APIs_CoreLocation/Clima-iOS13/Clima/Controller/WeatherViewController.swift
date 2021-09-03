@@ -7,52 +7,61 @@
 //
 
 import UIKit
+import CoreLocation
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController{
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
        
-    var weatherManager = WeatherManager()
 
+    var weatherManager = WeatherManager()
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        
         searchTextField.delegate = self
         weatherManager.delegate = self
-        weatherManager.testParameterName(extern: "hello world")
-        weatherManager.testExtern("hello")
+
     }
+    
+}
+
+//MARK: - UITextFieldDelegate
+extension WeatherViewController: UITextFieldDelegate {
     @IBAction func searchPressed(_ sender: UIButton) {
         if let inputString: String = searchTextField.text {
             print(inputString)
         }
         searchTextField.endEditing(true)
-        
     }
 
-   
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("press the return button")
+        print("1. call the textFieldShouldReturn")
         
         //endEditing호출 = 키보드 닫기
         searchTextField.endEditing(true)
         
         return true
-        
     }
     
     //endEditing이 호출되었을 때 동작
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("did end Edit\n hey view con, user end edit")
+        print("3. call the textFieldDidEndEditing")
         weatherManager.fetchWeather(cityName: textField.text ?? nil)
         searchTextField.text = ""
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("should End Edit")
+        print("2. call the textFieldShouldEndEditing")
         if searchTextField.text != "" {
             return true
         } else {
@@ -60,7 +69,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
             return false
         }
     }
-    
+}
+
+//MARK: - WeatherManagerDelegate
+extension WeatherViewController: WeatherManagerDelegate {
+
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         print(weather.conditionId)
        // temperatureLabel.text = weather.temperatureString //Crash : use DispatchQueue
@@ -74,5 +87,31 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
     func didFailWithError(error: Error) {
         print(error)
     }
+
 }
 
+//MARK: - CLLocationManagerDelegate
+
+extension WeatherViewController: CLLocationManagerDelegate {
+    
+    @IBAction func pressedLocationButton(_ sender: UIButton) {
+        print("pressed the my location button")
+        locationManager.requestLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("call the locationManager")
+        print(locations)
+        if let location = locations.last {
+            //locationManager.stopUpdatingLocation()
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+            
+            weatherManager.fetchWeather(latitude: String(lat), longitude: String(lon))
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+}
