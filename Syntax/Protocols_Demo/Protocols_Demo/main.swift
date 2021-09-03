@@ -14,8 +14,19 @@ class Bird {
     }
 }
 
+protocol CanFly {
+    func fly()
+}
+
+extension CanFly {
+    func fly() {
+        print("hello Extensions Fly method!")
+    }
+}
+
 class Eagle: Bird {
     override func fly() {
+        super.fly()
         print("power flying... eagle!!")
     }
 }
@@ -27,3 +38,15 @@ var eagle: Eagle = Eagle()
 eagle.isFemale = false
 eagle.layEgg()
 eagle.fly() 
+
+class Wizard: CanFly {
+    func fly() {
+        //super.fly() // fail
+        print("harry porter fly in to the sky!!")
+    }
+}
+
+let harry: Wizard = Wizard()
+harry.fly()
+
+
