@@ -17,11 +17,7 @@ class ChatViewController: UIViewController {
     let db = Firestore.firestore()
     
     var messages: [Message] = [
-    
-        Message(sender: "1@2.com", body: "Hey!"),
-        Message(sender: "1@2.com", body: "Hello!"),
-        Message(sender: "1@2.com", body: "How are you?!"),
-    
+
     ]
     
     override func viewDidLoad() {
@@ -29,6 +25,7 @@ class ChatViewController: UIViewController {
         title = K.appName
         navigationItem.hidesBackButton = true
 
+        messageTextfield.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -38,8 +35,13 @@ class ChatViewController: UIViewController {
     }
     
     func loadMessage() {
-        messages = []
-        db.collection(K.FStore.collectionName).getDocuments { (querySnapshot, error) in
+        
+        db.collection(K.FStore.collectionName)
+            .order(by: K.FStore.dateField)
+            .addSnapshotListener { (querySnapshot, error) in
+                
+            self.messages = []
+            
             if let e = error {
                 print("There is an issue retrieving data from Firebase. \(e)")
             } else {
@@ -54,8 +56,9 @@ class ChatViewController: UIViewController {
                             self.messages.append(newMessage)
                             print("append new message")
                             DispatchQueue.main.async {
+                                
                                 self.tableView.reloadData()
-                                print("reload table view")
+                               // print("reload table view")
                             }
                         }
                     }
@@ -68,7 +71,11 @@ class ChatViewController: UIViewController {
     @IBAction func sendPressed(_ sender: UIButton) {
         if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
             //create the data dictionary
-            db.collection(K.FStore.collectionName).addDocument(data: [ K.FStore.senderField: messageSender, K.FStore.bodyField: messageBody]) { (error) in
+            db.collection(K.FStore.collectionName).addDocument(data: [
+                K.FStore.senderField: messageSender,
+                K.FStore.bodyField: messageBody,
+                K.FStore.dateField: Date().timeIntervalSince1970
+            ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore. \(e)")
                 } else {
@@ -76,6 +83,7 @@ class ChatViewController: UIViewController {
                 }
             }
         }
+        messageTextfield.endEditing(true)
     }
     
     @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
@@ -122,4 +130,18 @@ extension ChatViewController: UITableViewDelegate {
         print(indexPath.row)
     }
     
+}
+
+//MARK: - UITextFieldDelegate
+
+extension ChatViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("call should return")
+        messageTextfield.endEditing(true)
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("call end editing")
+        messageTextfield.text = ""
+    }
 }
