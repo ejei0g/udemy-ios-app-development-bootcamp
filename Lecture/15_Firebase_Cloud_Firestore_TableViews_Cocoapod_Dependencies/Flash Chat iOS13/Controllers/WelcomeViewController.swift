@@ -17,14 +17,14 @@ class WelcomeViewController: UIViewController {
 
         titleLabel.text = ""
         var charIndex = 0.0
-        let titleText = "⚡️FlashChat"
+        let titleText = K.appName
         for letter in titleText {
-            print("-")
-            print(0.1 * charIndex)
-            print(letter)
+         //   print("-")
+          //  print(0.1 * charIndex)
+           // print(letter)
             Timer.scheduledTimer(withTimeInterval: 0.1 * charIndex, repeats: false) { Timer in
                 self.titleLabel.text?.append(letter)
-                print("add letter\(letter)")
+             //   print("add letter\(letter)")
 
             }
             charIndex += 1
