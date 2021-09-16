@@ -33,6 +33,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6yU-2a-ghy">
+                                <rect key="frame" x="132" y="454" width="150" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -40,6 +44,7 @@
                     <navigationItem key="navigationItem" id="ek6-mu-T7n"/>
                     <connections>
                         <outlet property="myLabel" destination="aes-7O-1nz" id="Hwr-AT-BUf"/>
+                        <outlet property="myProgressView" destination="6yU-2a-ghy" id="3h7-NE-rjj"/>
                         <outlet property="mySlider" destination="8kC-SI-Y2O" id="jLA-3b-Fjd"/>
                     </connections>
                 </viewController>

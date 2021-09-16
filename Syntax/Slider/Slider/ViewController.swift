@@ -9,6 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var myProgressView: UIProgressView!
+    
+    
     private let slider: SliderView = {
         let slider = SliderView(frame: .zero)
         slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
