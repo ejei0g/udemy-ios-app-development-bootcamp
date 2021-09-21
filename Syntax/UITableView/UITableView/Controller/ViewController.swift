@@ -8,6 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var myButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBAction func btnAddData(_ sender: Any) {
          //touchUpAddButton

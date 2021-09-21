@@ -96,6 +96,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="myButton" destination="Imv-ge-CSt" id="Bdg-fy-Ma3"/>
                         <outlet property="tableView" destination="Qp8-XB-eia" id="S2X-Zl-iFU"/>
                     </connections>
                 </viewController>
