@@ -87,7 +87,7 @@ class ViewController: UIViewController {
         
     }
 
-    
+    //MARK: - gradient animation
     private var backgroundColorTop = defaultBackgroundColorTop {
         didSet{ updateBackgroundGradient() }
     }
