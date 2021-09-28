@@ -10,12 +10,22 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemArray = ["Find Mike", "Buy Eggos", "Destory Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destory Demogorgon"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("in tableviewcon")
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+
+
+//        self.navigationController?.navigationBar.isTranslucent = false
+
+        self.navigationController?.navigationBar.backgroundColor = .blue
+        self.view.backgroundColor = .gray
+        self.navigationController?.navigationBar.barTintColor = .red
     }
 
     //MARK: - Tableview Datasource Methods
@@ -51,5 +61,32 @@ class TodoListViewController: UITableViewController {
 //    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
 //        return false
 //    }
+    //MARK: - Add New Items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        print("start func pressed add button")
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add new todoey item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add item", style: .default) { action in
+            //what will happen once the user  clicks  the add items button on our uialert
+            print("start action!")
+            if let text = textField.text {
+                self.itemArray.append(text)
+                self.tableView.reloadData()
+            }
+        }
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "Create new item" //뒷배경
+            textField = alertTextField
+            if textField === alertTextField {
+                print("this same address")
+            }
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        print("end func pressed add button")
+    }
+    
 }
 
