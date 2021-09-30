@@ -4,7 +4,9 @@ protocol AdvancedLifeSupport {
     func perfomeCPR()
 }
 
+//View
 class EmergencyCallHandler {
+    
     var delegate: AdvancedLifeSupport?
     
     func chk() {
@@ -12,6 +14,7 @@ class EmergencyCallHandler {
     }
     func medicalEmergency() {
         if let bleep = delegate {
+            
             bleep.perfomeCPR()
         }
     }
