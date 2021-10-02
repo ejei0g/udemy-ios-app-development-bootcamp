@@ -17,7 +17,11 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - MVC Models refactoring
+        
+        // how to check the data file root
+        //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+        print(dataFilePath)
         
         let newItems = Item()
         newItems.title = "Find Mike"
@@ -31,10 +35,9 @@ class TodoListViewController: UITableViewController {
         newItems3.title = "Destroy Mike"
         itemArray.append(newItems3)
         
-        // Do any additional setup after loading the view.
-//        if let items = userDefaults.array(forKey: "TodoListArray") as? [String] {
-//            itemArray = items
-//        }
+        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
+            itemArray = items
+        }
 
         self.navigationController?.navigationBar.shadowImage = UIImage()
 
