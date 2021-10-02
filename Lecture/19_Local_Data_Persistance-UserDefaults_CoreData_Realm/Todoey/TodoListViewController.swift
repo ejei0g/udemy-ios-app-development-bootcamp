@@ -12,16 +12,16 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggos", "Destory Demogorgon"]
     
+    let userDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("in tableviewcon")
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        if let items = userDefaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
 
         self.navigationController?.navigationBar.shadowImage = UIImage()
-
-
-//        self.navigationController?.navigationBar.isTranslucent = false
 
         self.navigationController?.navigationBar.backgroundColor = .blue
         self.view.backgroundColor = .gray
@@ -73,6 +73,9 @@ class TodoListViewController: UITableViewController {
             print("start action!")
             if let text = textField.text {
                 self.itemArray.append(text)
+                
+                self.userDefaults.set(self.itemArray, forKey: "TodoListArray")
+                
                 self.tableView.reloadData()
             }
         }
