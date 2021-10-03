@@ -22,17 +22,8 @@ class TodoListViewController: UITableViewController {
         //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         print(dataFilePath)
         
-        let newItems = Item()
-        newItems.title = "Find Mike"
-        itemArray.append(newItems)
         
-        let newItems2 = Item()
-        newItems2.title = "Find Mike"
-        itemArray.append(newItems2)
-        
-        let newItems3 = Item()
-        newItems3.title = "Destroy Mike"
-        itemArray.append(newItems3)
+        loadItem()
         
 //        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
 //            itemArray = items
@@ -139,20 +130,29 @@ class TodoListViewController: UITableViewController {
         print("end func pressed add button")
     }
     
+    // MARK: - Model Manuplation Methods
+    
     func savedItem() {
-        
         // MARK: - NSCoder
         let encoder = PropertyListEncoder()
         
         do {
-            
             let data = try encoder.encode(itemArray)
             try data.write(to: dataFilePath!)
         } catch {
             print("encode error \(error)")
-            
         }
         tableView.reloadData()
+    }
+    
+    func loadItem() {
+        do {
+            let data = try Data(contentsOf: dataFilePath!)
+            let decoder = PropertyListDecoder()
+            itemArray = try decoder.decode([Item].self, from: data)
+        } catch {
+            print("encode error \(error)")
+        }
         
     }
     
