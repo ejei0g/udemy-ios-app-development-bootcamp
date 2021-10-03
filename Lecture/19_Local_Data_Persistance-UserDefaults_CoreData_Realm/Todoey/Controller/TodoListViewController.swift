@@ -12,15 +12,14 @@ class TodoListViewController: UITableViewController {
 
     //var itemArray = ["Find Mike", "Buy Eggos", "Destory Demogorgon"]
     var itemArray = [Item]()
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
-    let userDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // how to check the data file root
         //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
         print(dataFilePath)
         
         let newItems = Item()
@@ -35,9 +34,9 @@ class TodoListViewController: UITableViewController {
         newItems3.title = "Destroy Mike"
         itemArray.append(newItems3)
         
-        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
+//        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
+//            itemArray = items
+//        }
 
         self.navigationController?.navigationBar.shadowImage = UIImage()
 
@@ -76,6 +75,7 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print(itemArray[indexPath.row])
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        savedItem()
         //toggle is replaced this
 //        if itemArray[indexPath.row].done == false {
 //            itemArray[indexPath.row].done = true
@@ -83,7 +83,7 @@ class TodoListViewController: UITableViewController {
 //            itemArray[indexPath.row].done = false
 //        }
         
-//        let type = tableView.cellForRow(at: indexPath)?.accessoryType
+//        let type = tableView.cellForRow(at: indexPath)?.acc essoryType
         
 //        if type == .checkmark {
 //            tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -92,7 +92,7 @@ class TodoListViewController: UITableViewController {
 //        }
         
         tableView.deselectRow(at: indexPath, animated: true)
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
     }
     
 //    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -107,15 +107,24 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add item", style: .default) { action in
             //what will happen once the user  clicks  the add items button on our uialert
-            print("start action!")
             if let text = textField.text {
                 let newItem = Item()
                 newItem.title = text
                 self.itemArray.append(newItem)
+                self.savedItem()
                 
-                self.userDefaults.set(self.itemArray, forKey: "TodoListArray")
-                
-                self.tableView.reloadData()
+                // MARK: - NSCoder
+//                let encoder = PropertyListEncoder()
+//                do {
+//
+//                    let data = try encoder.encode(self.itemArray)
+//                    try data.write(to: self.dataFilePath!)
+//                } catch {
+//                    print("encode error \(error)")
+//
+//                }
+//
+//                self.tableView.reloadData()
             }
         }
         alert.addTextField { alertTextField in
@@ -128,6 +137,23 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
         print("end func pressed add button")
+    }
+    
+    func savedItem() {
+        
+        // MARK: - NSCoder
+        let encoder = PropertyListEncoder()
+        
+        do {
+            
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("encode error \(error)")
+            
+        }
+        tableView.reloadData()
+        
     }
     
 }
