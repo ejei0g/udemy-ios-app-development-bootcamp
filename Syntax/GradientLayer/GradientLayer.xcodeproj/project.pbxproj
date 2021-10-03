@@ -14,6 +14,8 @@
 		3556228527014D8200EBD775 /* GradientLayer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3556228327014D8200EBD775 /* GradientLayer.xcdatamodeld */; };
 		3556228727014D8300EBD775 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3556228627014D8300EBD775 /* Assets.xcassets */; };
 		3556228A27014D8300EBD775 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3556228827014D8300EBD775 /* LaunchScreen.storyboard */; };
+		356EC3E327098B5F00B3C3CA /* GLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356EC3E227098B5F00B3C3CA /* GLViewController.swift */; };
+		356EC3E527098D5D00B3C3CA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356EC3E427098D5D00B3C3CA /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		3556228627014D8300EBD775 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3556228927014D8300EBD775 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3556228B27014D8300EBD775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		356EC3E227098B5F00B3C3CA /* GLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GLViewController.swift; sourceTree = "<group>"; };
+		356EC3E427098D5D00B3C3CA /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				3556228827014D8300EBD775 /* LaunchScreen.storyboard */,
 				3556228B27014D8300EBD775 /* Info.plist */,
 				3556228327014D8200EBD775 /* GradientLayer.xcdatamodeld */,
+				356EC3E227098B5F00B3C3CA /* GLViewController.swift */,
+				356EC3E427098D5D00B3C3CA /* Colors.swift */,
 			);
 			path = GradientLayer;
 			sourceTree = "<group>";
@@ -142,8 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3556227F27014D8200EBD775 /* ViewController.swift in Sources */,
+				356EC3E527098D5D00B3C3CA /* Colors.swift in Sources */,
 				3556228527014D8200EBD775 /* GradientLayer.xcdatamodeld in Sources */,
 				3556227B27014D8200EBD775 /* AppDelegate.swift in Sources */,
+				356EC3E327098B5F00B3C3CA /* GLViewController.swift in Sources */,
 				3556227D27014D8200EBD775 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

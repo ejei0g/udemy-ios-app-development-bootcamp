@@ -53,6 +53,7 @@ class ViewController: UIViewController {
         // Corner radius
         myView.layer.cornerRadius = 10
         myView.clipsToBounds = true
+        //print(getColourFromPoint(point: CGPoint(x: 0.0, y: 0.0)))
         
     }
 
