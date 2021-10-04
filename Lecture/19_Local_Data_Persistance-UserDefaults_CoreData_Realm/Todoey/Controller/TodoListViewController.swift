@@ -14,6 +14,7 @@ class TodoListViewController: UITableViewController {
     var itemArray = [Item]()
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,7 @@ class TodoListViewController: UITableViewController {
         print(dataFilePath)
         
         
-        loadItem()
+//        loadItem()
         
 //        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
 //            itemArray = items
@@ -91,31 +92,19 @@ class TodoListViewController: UITableViewController {
 //    }
     //MARK: - Add New Items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        print("start func pressed add button")
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add new todoey item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add item", style: .default) { action in
+            
+            let newItem = Item(context: self.context)
             //what will happen once the user  clicks  the add items button on our uialert
             if let text = textField.text {
-                let newItem = Item()
                 newItem.title = text
+                newItem.done = false
                 self.itemArray.append(newItem)
                 self.savedItem()
-                
-                // MARK: - NSCoder
-//                let encoder = PropertyListEncoder()
-//                do {
-//
-//                    let data = try encoder.encode(self.itemArray)
-//                    try data.write(to: self.dataFilePath!)
-//                } catch {
-//                    print("encode error \(error)")
-//
-//                }
-//
-//                self.tableView.reloadData()
             }
         }
         alert.addTextField { alertTextField in
@@ -133,28 +122,25 @@ class TodoListViewController: UITableViewController {
     // MARK: - Model Manuplation Methods
     
     func savedItem() {
-        // MARK: - NSCoder
-        let encoder = PropertyListEncoder()
         
         do {
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
-            print("encode error \(error)")
+            print("save error")
         }
         tableView.reloadData()
     }
     
-    func loadItem() {
-        do {
-            let data = try Data(contentsOf: dataFilePath!)
-            let decoder = PropertyListDecoder()
-            itemArray = try decoder.decode([Item].self, from: data)
-        } catch {
-            print("encode error \(error)")
-        }
-        
-    }
+//    func loadItem() {
+//        do {
+//            let data = try Data(contentsOf: dataFilePath!)
+//            let decoder = PropertyListDecoder()
+//            itemArray = try decoder.decode([Item].self, from: data)
+//        } catch {
+//            print("encode error \(error)")
+//        }
+//
+//    }
     
 }
 
