@@ -28,3 +28,9 @@ let dictionary = ["name" : "jaeylee", "age" : 10] as [String : Any]
 defaults.set(dictionary, forKey: "MyDictionary")
 let d = defaults.dictionary(forKey: "MyDictionary")
 print(d)
+
+// user default는 정말 작은 값들만 저장한다.
+// 결국 처음 앱이 실행될 때, 초기화 과정에서 유저디폴트의 정보를 사용한다.
+
+// 초기화 관련 함수가 필요
+
