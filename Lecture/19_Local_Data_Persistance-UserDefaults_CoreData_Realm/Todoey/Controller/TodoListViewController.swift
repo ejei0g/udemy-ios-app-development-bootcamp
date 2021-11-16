@@ -1,40 +1,17 @@
-//
-//  ViewController.swift
-//  Todoey
-//
-//  Created by Philipp Muellauer on 02/12/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
-//
-
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
-
-    //var itemArray = ["Find Mike", "Buy Eggos", "Destory Demogorgon"]
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    @IBOutlet var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        searchBar.delegate = self
         
-        // how to check the data file root
-        //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        print(dataFilePath)
-        
-        
-//        loadItem()
-        
-//        if let items = userDefaults.array(forKey: "TodoListArray") as? [Item] {
-//            itemArray = items
-//        }
-
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-
-        self.navigationController?.navigationBar.backgroundColor = .blue
-        self.view.backgroundColor = .gray
-        self.navigationController?.navigationBar.barTintColor = .red
+        loadItems()
     }
 
     //MARK: - Tableview Datasource Methods
@@ -50,56 +27,29 @@ class TodoListViewController: UITableViewController {
         let item = itemArray[indexPath.row]
         
         cell.textLabel?.text = item.title//itemArray[indexPath.row].title
-        
-        
-//        if item.done == true {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
         cell.accessoryType = item.done ? .checkmark : .none
-        
         return cell
     }
     
     //MARK: - TableView Delegate Methods
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(itemArray[indexPath.row])
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+        //itemArray[indexPath.row].setValue("Completed", forKey: "title")
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         savedItem()
-        //toggle is replaced this
-//        if itemArray[indexPath.row].done == false {
-//            itemArray[indexPath.row].done = true
-//        } else {
-//            itemArray[indexPath.row].done = false
-//        }
-        
-//        let type = tableView.cellForRow(at: indexPath)?.acc essoryType
-        
-//        if type == .checkmark {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//        } else {
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//        }
-        
         tableView.deselectRow(at: indexPath, animated: true)
-//        self.tableView.reloadData()
     }
     
-//    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
     //MARK: - Add New Items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
-        
         let alert = UIAlertController(title: "Add new todoey item", message: "", preferredStyle: .alert)
-        
         let action = UIAlertAction(title: "Add item", style: .default) { action in
-            
-            let newItem = Item(context: self.context)
             //what will happen once the user  clicks  the add items button on our uialert
+            let newItem = Item(context: self.context)
+            
             if let text = textField.text {
                 newItem.title = text
                 newItem.done = false
@@ -108,39 +58,52 @@ class TodoListViewController: UITableViewController {
             }
         }
         alert.addTextField { alertTextField in
-            alertTextField.placeholder = "Create new item" //뒷배경
+            alertTextField.placeholder = "Create new item"
             textField = alertTextField
-            if textField === alertTextField {
-                print("this same address")
-            }
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
-        print("end func pressed add button")
     }
     
     // MARK: - Model Manuplation Methods
     
     func savedItem() {
-        
         do {
-            try context.save()
+            try self.context.save()
         } catch {
             print("save error")
         }
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
-//    func loadItem() {
-//        do {
-//            let data = try Data(contentsOf: dataFilePath!)
-//            let decoder = PropertyListDecoder()
-//            itemArray = try decoder.decode([Item].self, from: data)
-//        } catch {
-//            print("encode error \(error)")
-//        }
-//
-//    }
-    
+    func loadItems() {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+    }
 }
 
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        let predicate = NSPredicate(format: "title CONTAINS %@", searchBar.text!)
+        request.predicate = predicate
+        
+        let sordDescriptr = NSSortDescriptor(key: "title", ascending: true)
+        
+        request.sortDescriptors = [sordDescriptr]
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+}
