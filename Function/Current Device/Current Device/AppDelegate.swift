@@ -14,6 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Do any additional setup after loading the view.
+        print("### UIDevice.current ###")
+        print("name: ", UIDevice.current.name)
+        print("systemName: ", UIDevice.current.systemName)
+        print("systemVersion: ", UIDevice.current.systemVersion)
+        print("model: ", UIDevice.current.model)
+        print("localizedModel: ", UIDevice.current.localizedModel)
+        print("userInterfaceIdiom ", UIDevice.current.userInterfaceIdiom)
+        print("identifierForVendor: ", UIDevice.current.identifierForVendor as Any)
         return true
     }
 

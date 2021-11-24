@@ -11,16 +11,22 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        print("### UIDevice.current ###")
-        print("name: ", UIDevice.current.name)
-        print("systemName: ", UIDevice.current.systemName)
-        print("systemVersion: ", UIDevice.current.systemVersion)
-        print("model: ", UIDevice.current.model)
-        print("localizedModel: ", UIDevice.current.localizedModel)
-        print("userInterfaceIdiom ", UIDevice.current.userInterfaceIdiom)
-        print("identifierForVendor: ", UIDevice.current.identifierForVendor as Any)
-        
+        createButton()
+    }
+    
+    func createButton() {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        button.center = view.center
+//        button.configuration = UIButton.Configuration.createConfig()
+        button.configuration = .createConfig()
+        button.configurationUpdateHandler = { button in
+            if button.isHighlighted {
+                button.backgroundColor = .systemYellow
+            } else {
+                button.backgroundColor = .white
+            }
+        }
+        view.addSubview(button)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -32,3 +38,16 @@ class ViewController: UIViewController {
     }
 }
 
+extension UIButton.Configuration {
+    static func createConfig() -> UIButton.Configuration {
+        var config: UIButton.Configuration = .filled()
+        config.baseBackgroundColor = .systemPink
+        config.title = "Start Button"
+        config.subtitle = "subtitle 123$"
+        config.titleAlignment = .center
+        config.cornerStyle = .capsule
+        config.showsActivityIndicator = true
+        return config
+    }
+    
+}
